@@ -1,3 +1,4 @@
+package pathfinding;
 import defaultpackage.WeightedGraph.Mode;
 
 public interface Graph {

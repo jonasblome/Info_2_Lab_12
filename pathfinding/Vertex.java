@@ -1,5 +1,6 @@
+package pathfinding;
 
-public class NameParser {
+public class Vertex {
 	public static void main(String[] args) {
 		
 	}
