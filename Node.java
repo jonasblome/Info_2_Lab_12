@@ -1,8 +1,7 @@
-import WeightedGraph.Mode;
 
 public interface Node {
 	public void reset();
-	public void explore(Mode mode);
+	public void explore(WeightedGraph.Mode mode);
 	public void addNeigbour(Node node, double distance);
 	
 	public boolean setDistanceAndPrevNode(double shortestDistanceCandidate, Node prevNodeCandidate);

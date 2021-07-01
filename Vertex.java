@@ -4,28 +4,34 @@ public class Vertex implements Node {
 
     private int index;
     private String name;
-    private HashMap<Vertex, Double> neighbours == new HashMap<Vertex, Double>();
+    private HashMap<Vertex, Double> neighbours = new HashMap<Vertex, Double>();
 
     //temporary fields, get reset every time the pathfinding algorithm is called
     private boolean explored;
-    private double distanceFromStartingPointNode;
+    private double distanceFromStartingNode;
     private Vertex previousNode;
 
     public Vertex(int index, String name){
         this.index = index;
         this.name = name;
         this.explored = false;
-        this.distanceFromStartingPointNode = Double.POSITIVE_INFINITY;
+        this.distanceFromStartingNode = Double.POSITIVE_INFINITY;
         this.previousNode = null;
     }
 
-    public void reset(){}
+    public void reset(){
+    	
+    }
 
-    public void explore(Mode mode){}
+    public void explore(WeightedGraph.Mode mode){
+    	
+    }
 
     public void addNeighbour(Node node, double distance){}
 
-    public boolean setDistanceAndPrevNode(double shortestDistanceCandidate, Node prevNodeCandidate){}
+    public boolean setDistanceAndPrevNode(double shortestDistanceCandidate, Node prevNodeCandidate){
+		return explored;
+	}
 
     @Override
     public boolean equals(Object o){
@@ -54,7 +60,12 @@ public class Vertex implements Node {
     }
 
     public double getDistanceFromStartingNode(){
-        return distanceFromStartingPointNode;
+        return distanceFromStartingNode;
     }
+
+	@Override
+	public void addNeigbour(Node node, double distance) {
+		
+	}
 
 }
