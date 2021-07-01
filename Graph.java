@@ -1,4 +1,4 @@
-import defaultpackage.WeightedGraph.Mode;
+import WeightedGraph.Mode;
 
 public interface Graph {
 	public int getVertexCount();

@@ -1,6 +1,4 @@
-package pathfinding;
-
-import pathfinding.WeightedGraph.Mode;
+import WeightedGraph.Mode;
 
 public interface Node {
 	public void reset();
