@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Vertex implements Node {
+public class Vertex implements Node, Comparable<Vertex> {
 
     private int index;
     private String name;
@@ -20,17 +20,26 @@ public class Vertex implements Node {
     }
 
     public void reset(){
-    	
+    	explored = false;
+    	distanceFromStartingNode = Double.POSITIVE_INFINITY;
+    	previousNode = null;
     }
 
     public void explore(WeightedGraph.Mode mode){
-    	
+    	explored = true;
+    }
+    
+    @Override
+    public void addNeighbour(Node node, double distance){
+    	neighbours.put((Vertex) node, distance);
     }
 
-    public void addNeighbour(Node node, double distance){}
-
     public boolean setDistanceAndPrevNode(double shortestDistanceCandidate, Node prevNodeCandidate){
-		return explored;
+    	if (shortestDistanceCandidate < distanceFromStartingNode) {
+    		distanceFromStartingNode = shortestDistanceCandidate;
+    		previousNode = (Vertex) prevNodeCandidate;
+    	}
+		return true;
 	}
 
     @Override
@@ -64,8 +73,7 @@ public class Vertex implements Node {
     }
 
 	@Override
-	public void addNeigbour(Node node, double distance) {
-		
+	public int compareTo(Vertex o) {
+		return Double.compare(distanceFromStartingNode, o.getDistanceFromStartingNode());
 	}
-
 }
