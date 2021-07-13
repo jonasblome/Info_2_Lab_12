@@ -30,33 +30,62 @@ public class WeightedGraph implements Graph {
     
 	@Override
     public String dijkstra(int start, int end, Mode mode){
+		//set all vertices of the graph to infinite distance with no previous node.
 		for(Vertex vertex : graph) {
 			vertex.setDistanceAndPrevNode(Double.POSITIVE_INFINITY, null);
 		}
 		
+		//add a queue for the next node with smallest distance.
 		Vertex currentVertex;
 		PriorityQueue<Vertex> unexploredVertices = new PriorityQueue<Vertex>();
+		
+		//add start node to the priority queue and set destination node.
 		unexploredVertices.add(graph.get(start));
 		graph.get(start).setDistanceAndPrevNode(0, null);
 		Vertex destination = graph.get(end);
 		
+		//for every neighbour of the current node update the distance.
+		//set new previous node to current node.
 		while(!destination.getExplored()) {
+			//pull the nearest element out of the queue and get its neighbours.
 			currentVertex = (Vertex) unexploredVertices.poll();
-			HashMap<Vertex, Double> neighbours = currentVertex.getNeighbours();
-			currentVertex.explore(mode);
-			for(Vertex neighbour : neighbours.keySet()) {
-				neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), neighbour);
-				unexploredVertices.add(neighbour);
+			HashMap<Vertex, Double> neighbours;
+			if (currentVertex != null) {
+				neighbours = currentVertex.getNeighbours();
 			}
+			else {
+				return "the graph doesnt have a connection between start and end point";
+			}
+			
+			//look at all neighbours and check/update their distances.
+			for(Vertex neighbour : neighbours.keySet()) {
+				if (!neighbour.getExplored()) {
+					//if the neighbour doesnt have a distance yet, set it and queue it.
+					if (neighbour.getDistanceFromStartingNode() == Double.POSITIVE_INFINITY) {
+						neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+						unexploredVertices.add(neighbour);
+					}
+					//if it has a distance, just update it.
+					else {
+						neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+					}
+				}
+			}
+			
+			//set current node to explored so it wont be checked again.
+			currentVertex.explore(mode);
 		}
 		
+		//backtrack the path from the destination to the start and return it as string.
 		currentVertex = destination;
 		String path = "";
 		
-		while(currentVertex != graph.get(start)) {
+		while(currentVertex != null) {
 			path = path + currentVertex.getName() + ", ";
 			currentVertex = (Vertex) currentVertex.getPreviousNode();
 		}
+		//add start node to string.
+		//path += currentVertex.getName();
 		return path;
     }
 	
@@ -74,18 +103,31 @@ public class WeightedGraph implements Graph {
 		}
     	
     	//fill random entries with random weights.
-    	//dont overwrite existing weights. dont overwrite diagonal zeros.
+    	//dont overwrite existing weights. dont overwrite diagonal zeros. make it symmetric to have an "undirectional" graph.
     	for(int i = 0; i < edges; i++) {
     		int randX = rand.nextInt(nodes);
     		int randY = rand.nextInt(nodes);
-    		int randWeight = rand.nextInt(10) + 1;
-    		if ((adjacencyMatrix[randX][randY] != 0) || (randX != randY)) {
+    		int randWeight = rand.nextInt(30) + 1;
+    		
+    		if ((adjacencyMatrix[randX][randY] != 0) || (randX == randY) || (adjacencyMatrix[randY][randX] != 0)) {
     			i--;
     		}
     		else {
     			adjacencyMatrix[randX][randY] = randWeight;
+    			adjacencyMatrix[randY][randX] = randWeight;
+    			i++;
     		}
     	}
+    	
+    	//tested what the array looks like.
+//    	for(int x = 0; x < adjacencyMatrix.length; x++) {
+//    		for(int y = 0; y < adjacencyMatrix.length; y++) {
+//    			System.out.print(adjacencyMatrix[x][y] + "   ");
+//    		}
+//    		System.out.println("");
+//    		System.out.println("");
+//    	}
+//    	System.out.println("");
     	
 		return adjacencyMatrix;
     }
@@ -131,7 +173,7 @@ public class WeightedGraph implements Graph {
     }
 
     private static String[] parsePossibleNames(){
-    	String[] newNames = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R"};
+    	String[] newNames = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Ä", "Ö", "Ü", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 		return newNames;
     }
 
