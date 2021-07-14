@@ -1,5 +1,7 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -7,7 +9,7 @@ public class WeightedGraph implements Graph {
     private double[][] adjacencyMatrix;
     private Random rand;
     private ArrayList<Vertex> graph = new ArrayList<>();
-    private static String[] names = parsePossibleNames();
+    private static String[] names = parsePossibleNames("D:/Desktop/INFORMATIK 2/Lab12/namesOfPlaces.txt");
 
     public WeightedGraph(int nodes, int edges){
         rand = new Random();
@@ -182,9 +184,31 @@ public class WeightedGraph implements Graph {
     	return graphString;
     }
 
-    private static String[] parsePossibleNames(){
+    /*private static String[] parsePossibleNames(){
     	String[] newNames = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Ä", "Ö", "Ü", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 		return newNames;
+    }*/
+    
+    private static String[] parsePossibleNames(String path){
+		
+    	HashSet<String> nameSet = new HashSet<>();
+    	
+    	String[] names = {};
+		
+    	try {
+			nameSet = NameParser.parseNames(path);
+			ArrayList<String> nameList = new ArrayList<>(nameSet);
+			
+			names = nameList.toArray(names);
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return names;
+        //todo
     }
 
     public int getVertexCount(){
