@@ -32,7 +32,7 @@ public class WeightedGraph implements Graph {
     public String dijkstra(int start, int end, Mode mode){
 		//set all vertices of the graph to infinite distance with no previous node.
 		for(Vertex vertex : graph) {
-			vertex.setDistanceAndPrevNode(Double.POSITIVE_INFINITY, null);
+			vertex.reset();
 		}
 		
 		//add a queue for the next node with smallest distance.
