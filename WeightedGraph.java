@@ -62,12 +62,22 @@ public class WeightedGraph implements Graph {
 				if (!neighbour.getExplored()) {
 					//if the neighbour doesnt have a distance yet, set it and queue it.
 					if (neighbour.getDistanceFromStartingNode() == Double.POSITIVE_INFINITY) {
-						neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+						if(mode == Mode.SHORTEST) {
+							neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + 1, currentVertex);
+						}
+						else {
+							neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+						}
 						unexploredVertices.add(neighbour);
 					}
 					//if it has a distance, just update it.
 					else {
-						neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+						if(mode == Mode.SHORTEST) {
+							neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + 1, currentVertex);
+						}
+						else {
+							neighbour.setDistanceAndPrevNode(currentVertex.getDistanceFromStartingNode() + neighbours.get(neighbour), currentVertex);
+						}
 					}
 				}
 			}
